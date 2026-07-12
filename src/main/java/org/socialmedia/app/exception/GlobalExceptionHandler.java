@@ -39,12 +39,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Void>> handleGenericException(Exception ex) {
-        ApiResponse<Void> response = ApiResponse.error("Internal Server Error: " + ex.getMessage(), null);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ApiResponse<Void>> handleUnauthorized(UnauthorizedException ex) {
         ApiResponse<Void> response = ApiResponse.error(ex.getMessage(), null);
@@ -62,4 +56,17 @@ public class GlobalExceptionHandler {
         ApiResponse<Void> response = ApiResponse.error(ex.getMessage(), null);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(EmailSendingException.class)
+    public ResponseEntity<ApiResponse<Void>> handleEmailSendingException(EmailSendingException ex) {
+        ApiResponse<Void> response = ApiResponse.error("Failed to send email: " + ex.getMessage(), null);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<Void>> handleGenericException(Exception ex) {
+        ApiResponse<Void> response = ApiResponse.error("Internal Server Error: " + ex.getMessage(), null);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
